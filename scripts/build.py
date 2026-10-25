@@ -139,17 +139,21 @@ def replace_general_settings(text: str) -> str:
 
 def inject_direct_rules(text: str, direct_rules: list[str]) -> str:
     lines = text.splitlines()
+    final_pattern = re.compile(r"^\s*FINAL\s*,\s*PROXY\s*$", re.IGNORECASE)
     final_positions = [
-        index for index, line in enumerate(lines) if line.strip() == "FINAL,PROXY"
+        index for index, line in enumerate(lines) if final_pattern.fullmatch(line)
     ]
     if len(final_positions) != 1:
         raise BuildError(
-            f"expected exactly one FINAL,PROXY, found {len(final_positions)}"
+            "expected exactly one FINAL proxy rule (case-insensitive), "
+            f"found {len(final_positions)}"
         )
     if RULES_BEGIN in lines or RULES_END in lines:
         raise BuildError("upstream unexpectedly contains custom rule markers")
 
     final_index = final_positions[0]
+    # Keep the generated file stable even if upstream changes keyword casing.
+    lines[final_index] = "FINAL,PROXY"
     block = ["", RULES_BEGIN, *direct_rules, RULES_END, ""]
     lines[final_index:final_index] = block
     return "\n".join(lines).rstrip() + "\n"

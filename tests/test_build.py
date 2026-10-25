@@ -32,12 +32,14 @@ class GeneratedConfigTests(unittest.TestCase):
 
     def test_upstream_ad_rules_precede_direct_rules(self) -> None:
         first_reject = next(
-            index for index, line in enumerate(self.lines) if line.endswith(",REJECT")
+            index
+            for index, line in enumerate(self.lines)
+            if line.upper().endswith(",REJECT")
         )
         custom_begin = self.lines.index(build.RULES_BEGIN)
         self.assertLess(first_reject, custom_begin)
         self.assertGreater(
-            sum(line.endswith(",REJECT") for line in self.lines),
+            sum(line.upper().endswith(",REJECT") for line in self.lines),
             50_000,
         )
 
@@ -74,6 +76,21 @@ class GeneratedConfigTests(unittest.TestCase):
         expected = f"update-url = {build.OUTPUT_URL}"
         self.assertEqual(self.lines.count(expected), 1)
         self.assertNotIn(f"update-url = {build.UPSTREAM_URL}", self.lines)
+
+
+class BuilderUnitTests(unittest.TestCase):
+    def test_accepts_upstream_final_policy_with_different_case(self) -> None:
+        source = "[Rule]\nDOMAIN-SUFFIX,example.com,Reject\nFINAL,proxy\n"
+        result = build.inject_direct_rules(
+            source,
+            ["DOMAIN-SUFFIX,qq.com,DIRECT"],
+        )
+        self.assertEqual(result.splitlines().count("FINAL,PROXY"), 1)
+        self.assertNotIn("FINAL,proxy", result.splitlines())
+        self.assertLess(
+            result.splitlines().index("DOMAIN-SUFFIX,qq.com,DIRECT"),
+            result.splitlines().index("FINAL,PROXY"),
+        )
 
 
 if __name__ == "__main__":
