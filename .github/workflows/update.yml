@@ -1,6 +1,14 @@
 name: Update Shadowrocket rules
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/update.yml"
+      - "rules/**"
+      - "scripts/**"
+      - "tests/**"
   schedule:
     # 09:30 China / 10:30 Japan, after the upstream's daily 08:00 build.
     - cron: "30 1 * * *"
