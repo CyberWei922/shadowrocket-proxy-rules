@@ -1,6 +1,6 @@
 # Shadowrocket Proxy Rules
 
-面向个人使用的 Shadowrocket 配置：保留上游“全局代理 + 去广告”，并让微信、QQ、哔哩哔哩和 Apple 推送服务直连。
+面向个人使用的 Shadowrocket 配置：保留上游“全局代理 + 去广告”，并让微信、QQ、哔哩哔哩、DeepSeek 和 Apple 推送服务直连。
 
 ## 使用地址
 
@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/CyberWei922/shadowrocket-proxy-rules/main/dist
 ## 流量策略
 
 1. 上游广告规则优先执行并 `REJECT`。
-2. 微信、QQ、哔哩哔哩和 APNs 使用 `DIRECT`。
+2. 微信、QQ、哔哩哔哩、DeepSeek 和 APNs 使用 `DIRECT`。
 3. 局域网使用 `DIRECT`。
 4. 其余请求由 `FINAL,PROXY` 交给 Shadowrocket 当前选择的代理节点。
 

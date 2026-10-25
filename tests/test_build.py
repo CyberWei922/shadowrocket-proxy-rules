@@ -47,6 +47,7 @@ class GeneratedConfigTests(unittest.TestCase):
         required = {
             "DOMAIN-SUFFIX,push.apple.com,DIRECT",
             "DOMAIN-SUFFIX,weixin.qq.com,DIRECT",
+            "DOMAIN-SUFFIX,deepseek.com,DIRECT",
             "DOMAIN-SUFFIX,qq.com,DIRECT",
             "DOMAIN-SUFFIX,bilibili.com,DIRECT",
             "DOMAIN-SUFFIX,bilivideo.com,DIRECT",
