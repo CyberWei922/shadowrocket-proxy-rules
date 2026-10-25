@@ -69,6 +69,11 @@ DOMAIN-SUFFIX,tencent-cloud.com,DIRECT
 DOMAIN-SUFFIX,tencent-cloud.net,DIRECT
 DOMAIN-SUFFIX,tencentcs.com,DIRECT
 
+# Native WeChat and QQ transfers can connect to mainland CDN IPs directly
+# instead of exposing a hostname. no-resolve prevents this fallback from
+# triggering an additional DNS lookup.
+GEOIP,CN,DIRECT,no-resolve
+
 # Bilibili (mainland service, API, images, video and payment/CDN domains)
 DOMAIN,p-bstarstatic.akamaized.net,DIRECT
 DOMAIN,p.bstarstatic.com,DIRECT

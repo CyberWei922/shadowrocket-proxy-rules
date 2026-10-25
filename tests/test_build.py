@@ -51,6 +51,7 @@ class GeneratedConfigTests(unittest.TestCase):
             "DOMAIN-SUFFIX,qq.com,DIRECT",
             "DOMAIN-SUFFIX,bilibili.com,DIRECT",
             "DOMAIN-SUFFIX,bilivideo.com,DIRECT",
+            "GEOIP,CN,DIRECT,no-resolve",
         }
         self.assertTrue(required.issubset(set(self.lines)))
 

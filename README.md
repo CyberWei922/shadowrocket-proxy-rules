@@ -16,8 +16,10 @@ https://raw.githubusercontent.com/CyberWei922/shadowrocket-proxy-rules/main/dist
 
 1. 上游广告规则优先执行并 `REJECT`。
 2. 微信、QQ、哔哩哔哩、DeepSeek 和 APNs 使用 `DIRECT`。
-3. 局域网使用 `DIRECT`。
-4. 其余请求由 `FINAL,PROXY` 交给 Shadowrocket 当前选择的代理节点。
+3. 微信、QQ 等原生客户端直接连接中国大陆 CDN IP 时，由
+   `GEOIP,CN,DIRECT,no-resolve` 兜底直连；`no-resolve` 不会为此额外触发 DNS 查询。
+4. 局域网使用 `DIRECT`。
+5. 其余请求由 `FINAL,PROXY` 交给 Shadowrocket 当前选择的代理节点。
 
 自定义直连规则位于 [`rules/direct.list`](rules/direct.list)。它们被插入到上游广告规则之后，因此不会覆盖已有广告拦截。
 
